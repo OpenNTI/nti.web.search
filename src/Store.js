@@ -1,5 +1,9 @@
 import EventEmitter from 'events';
 
+import Logger from 'nti-util-logger';
+
+const log = Logger.get('web:search:store');
+
 export default class SearchProviderStore extends EventEmitter {
 	static getGlobal () {
 		return this.getForScope('GlobalSearch');
@@ -21,7 +25,7 @@ export default class SearchProviderStore extends EventEmitter {
 		this._searchTerm = '';
 
 		this._history = null;
-		this._activeContexts = [];
+		this._contexts = [];
 	}
 
 
@@ -32,6 +36,18 @@ export default class SearchProviderStore extends EventEmitter {
 
 	get changing () {
 		return this._termChanging;
+	}
+
+
+	get context () {
+		const context = this._context[0];
+
+		return context && context.label;
+	}
+
+
+	get hasContext () {
+		return this._context.length > 0;
 	}
 
 
@@ -89,10 +105,24 @@ export default class SearchProviderStore extends EventEmitter {
 	}
 
 
-	setTermChanging (changing) {
-		this._termChanging = changing;
+	addContext (id, label) {
+		const exists = this._contexts.every(context => context.id === id);
 
-		this.emitChange('changing');
+		if (!exists) {
+			this._contexts = [...this._contexts, {id, label}];
+		}
+
+		if (this._context.length > 1) {
+			log.warn('More than one context active. We will just take the first one');
+		}
+
+		this.emitChange('context');
+	}
+
+
+	removeContext (id, label) {
+		this._contexts = this._contexts.filter(context => context.id !== id);
+		this.emitChange('context');
 	}
 
 
