@@ -32,20 +32,6 @@ export default class SearchInputConnector extends React.Component {
 	}
 
 
-	onChangeStart = () => {
-		const {searchStore} = this;
-
-		searchStore.setTermChanging(true);
-	}
-
-
-	onChangeEnd = () => {
-		const {searchStore} = this;
-
-		searchStore.setTermChanging(false);
-	}
-
-
 	render () {
 		const {searchStore} = this;
 		const {...otherProps} = this.props;
@@ -55,7 +41,7 @@ export default class SearchInputConnector extends React.Component {
 
 		return (
 			<Connector _store={searchStore} _propMap={propMap}>
-				<Input {...otherProps} onChange={this.onChange} onChagneStart={this.onChagneStart} onChangeEnd={this.onChangeEnd} />
+				<Input {...otherProps} onChange={this.onChange} />
 			</Connector>
 		);
 	}

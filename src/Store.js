@@ -72,16 +72,20 @@ export default class SearchProviderStore extends EventEmitter {
 
 
 	setTerm (term) {
-		if (!this._history) { throw new Error('Setting search term without binding to history'); }
-
 		if (term === this._searchTerm) { return; }
 
-		this._history.replace({
-			...this._history.location,
-			state: {
-				[this._name]: term
-			}
-		});
+		this._searchTerm = term;
+		this.emitChange('searchTerm');
+
+
+		if (this._history) {
+			this._history.replace({
+				...this._history.location,
+				state: {
+					[this._name]: term
+				}
+			});
+		}
 	}
 
 

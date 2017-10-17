@@ -1,1 +1,1 @@
-export * as Provider from './provider';
+export Input from './input';
