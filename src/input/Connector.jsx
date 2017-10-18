@@ -7,7 +7,8 @@ import Store from '../Store';
 import Input from './Input';
 
 const propMap = {
-	searchTerm: 'value'
+	searchTerm: 'value',
+	context: 'context'
 };
 
 export default class SearchInputConnector extends React.Component {

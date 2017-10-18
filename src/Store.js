@@ -40,14 +40,14 @@ export default class SearchProviderStore extends EventEmitter {
 
 
 	get context () {
-		const context = this._context[0];
+		const context = this._contexts[0];
 
 		return context && context.label;
 	}
 
 
 	get hasContext () {
-		return this._context.length > 0;
+		return this._contexts.length > 0;
 	}
 
 
@@ -106,13 +106,13 @@ export default class SearchProviderStore extends EventEmitter {
 
 
 	addContext (id, label) {
-		const exists = this._contexts.every(context => context.id === id);
+		const exists = this._contexts.some(context => context.id === id);
 
 		if (!exists) {
 			this._contexts = [...this._contexts, {id, label}];
 		}
 
-		if (this._context.length > 1) {
+		if (this._contexts.length > 1) {
 			log.warn('More than one context active. We will just take the first one');
 		}
 

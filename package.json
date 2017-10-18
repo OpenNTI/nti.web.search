@@ -27,6 +27,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "nti-commons": "^2.9.0",
+    "nti-lib-locale": "^1.0.9",
     "nti-lib-store-connector": "^0.4.0",
     "nti-style-common": "^1.3.0",
     "nti-util-logger": "^1.1.2",

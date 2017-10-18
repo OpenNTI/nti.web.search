@@ -49,7 +49,7 @@ export class Contextual extends React.Component {
 }
 
 export function contextual (label) {
-	const id = seen;
+	const id = seen.toString();
 
 	seen += 1;
 

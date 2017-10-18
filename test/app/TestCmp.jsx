@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import {searchable} from '../../src';
+import {searchable, contextual} from '../../src';
 
 import Store from './TestStore';
 
 const store = new Store();
 
+@contextual('Test CMP')
 @searchable(store, {items: 'items'})
 export default class TestCmp extends React.Component {
 	static propTypes = {
