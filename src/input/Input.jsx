@@ -11,9 +11,8 @@ export default class SearchProviderInput extends React.Component {
 	}
 
 
-	onChange = () => {
+	onChange = (value) => {
 		const {onChange} = this.props;
-		const {value} = this.state;
 
 		if (onChange) {
 			onChange(value);
