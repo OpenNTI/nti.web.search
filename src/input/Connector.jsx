@@ -18,6 +18,14 @@ export default class SearchInputConnector extends React.Component {
 		onChange: PropTypes.func
 	}
 
+	attachInputRef = x => this.input = x
+
+	focus () {
+		if (this.input) {
+			this.input.focus();
+		}
+	}
+
 
 	get searchStore () {
 		const {store, scope} = this.props;
@@ -27,9 +35,14 @@ export default class SearchInputConnector extends React.Component {
 
 
 	onChange = (value) => {
+		const {onChange} = this.props;
 		const {searchStore} = this;
 
 		searchStore.setTerm(value);
+
+		if (onChange) {
+			onChange(value);
+		}
 	}
 
 
@@ -42,7 +55,7 @@ export default class SearchInputConnector extends React.Component {
 
 		return (
 			<Connector _store={searchStore} _propMap={propMap}>
-				<Input {...otherProps} onChange={this.onChange} />
+				<Input {...otherProps} onChange={this.onChange} ref={this.attachInputRef} />
 			</Connector>
 		);
 	}

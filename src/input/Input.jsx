@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 import {Input} from 'nti-web-commons';
 
@@ -13,13 +12,20 @@ const t = scoped('nti-web-search.input', DEFAULT_TEXT);
 
 export default class SearchProviderInput extends React.Component {
 	static propTypes = {
-		className: PropTypes.string,
 		value: PropTypes.string,
 		onChange: PropTypes.func,
 
 		context: PropTypes.string
 	}
 
+
+	attachInputRef = x => this.input = x;
+
+	focus () {
+		if (this.input) {
+			this.input.focus();
+		}
+	}
 
 	onChange = (value) => {
 		const {onChange} = this.props;
@@ -31,13 +37,11 @@ export default class SearchProviderInput extends React.Component {
 
 
 	render () {
-		const {className, value, context} = this.props;
+		const {value, context, ...otherProps} = this.props;
 		const placeholder = context ? t('placeholderWithContext', {context}) : t('placeholder');
 
 		return (
-			<div className={cx('search-provider-input', className)}>
-				<Input.Text value={value} onChange={this.onChange} placeholder={placeholder} />
-			</div>
+			<Input.Text {...otherProps} value={value} onChange={this.onChange} placeholder={placeholder} ref={this.attachInputRef} />
 		);
 	}
 }
