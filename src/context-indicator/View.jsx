@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import {scoped} from 'nti-lib-locale';
 
 const DEFAULT_TEXT = {
@@ -11,6 +12,7 @@ const t = scoped('nti-web-search.context-indicator', DEFAULT_TEXT);
 
 export default class SearchContextIndicator extends React.Component {
 	static propTypes = {
+		className: PropTypes.string,
 		store: PropTypes.object,
 		searchTerm: PropTypes.string,
 		backLabel: PropTypes.string
@@ -25,14 +27,14 @@ export default class SearchContextIndicator extends React.Component {
 
 
 	render () {
-		const {searchTerm, backLabel} = this.props;
+		const {className, searchTerm, backLabel} = this.props;
 
 		if (!searchTerm) {
 			return null;
 		}
 
 		return (
-			<div className="search-context-indicator">
+			<div className={cx('search-context-indicator', className)}>
 				{backLabel && (
 					<div className="back" onClick={this.clearSearchTerm}>
 						<i className="icon-chevron-left" />
