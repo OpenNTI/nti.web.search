@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {Input} from '../../src';
+import {Input, ContextIndicator} from '../../src';
 
 import TestCmp from './TestCmp';
 
@@ -15,6 +15,7 @@ function Test () {
 	return (
 		<div className="search-test">
 			<Input />
+			<ContextIndicator backLabel="Show All Users"/>
 			<TestCmp />
 		</div>
 	);

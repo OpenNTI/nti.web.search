@@ -1,0 +1,22 @@
+@import '~nti-style-common';
+
+.search-context-indicator {
+	padding: 2.5rem 0;
+	box-shadow: 0 1px 0 0 rgba(0,0,0,0.13);
+
+	.back {
+		font: normal 300 0.875rem/1.4 $body-font-family;
+		margin-bottom: 0.75rem;
+		cusror: pointer;
+
+		i {
+			font-size: 0.75rem;
+		}
+
+	}
+
+	.results-for {
+		font: normal 300 2.25rem/1.4 $body-font-family;
+		color: $primary-grey;
+	}
+}
