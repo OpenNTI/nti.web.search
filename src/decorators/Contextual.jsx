@@ -57,6 +57,7 @@ export function contextual (label) {
 		const cmp = (props) => {
 			return (
 				<Contextual
+					{...props}
 					contextual-label={label}
 					contextual-id={id}
 					_component={component}
