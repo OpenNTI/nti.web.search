@@ -31,7 +31,7 @@
     "nti-style-common": "^1.3.0",
     "nti-util-logger": "^1.1.2",
     "nti-web-commons": "0.x.x",
-    "prop-types": "^15.6.0",
+    "prop-types": "^15.6.0"
   },
   "devDependencies": {
     "nti-cmp-scripts": "^1.0.52",
