@@ -32,7 +32,7 @@ export default class SearchProviderStore extends EventEmitter {
 
 
 	get searchTerm () {
-		return this._searchTerms[this.context || DEFAULT];
+		return this._searchTerms[this.contextID || DEFAULT];
 	}
 
 
@@ -45,6 +45,12 @@ export default class SearchProviderStore extends EventEmitter {
 		const context = this._contexts[0];
 
 		return context && context.label;
+	}
+
+	get contextID () {
+		const context = this._contexts[0];
+
+		return context && context.id;
 	}
 
 
@@ -92,7 +98,7 @@ export default class SearchProviderStore extends EventEmitter {
 	setTerm (term) {
 		if (term === this._searchTerm) { return; }
 
-		this._searchTerms[this.context || DEFAULT] = term;
+		this._searchTerms[this.contextID || DEFAULT] = term;
 		this.emitChange('searchTerm');
 
 

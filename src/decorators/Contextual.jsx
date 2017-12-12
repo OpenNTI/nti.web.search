@@ -11,7 +11,7 @@ export class Contextual extends React.Component {
 		'contextual-label': PropTypes.string.isRequired,
 		'contextual-id': PropTypes.string.isRequired,
 
-		_component: PropTypes.any,
+		component: PropTypes.any,
 		children: PropTypes.element
 	}
 
@@ -37,13 +37,13 @@ export class Contextual extends React.Component {
 
 
 	render () {
-		const {_component, children, ...otherProps} = this.props;
+		const {component, children, ...otherProps} = this.props;
 
 		delete otherProps['contextual-id'];
 		delete otherProps['contextual-label'];
 
-		return _component ?
-			React.createElement(_component, otherProps) :
+		return component ?
+			React.createElement(component, otherProps) :
 			React.cloneElement(React.Children.only(children), otherProps);
 	}
 }
@@ -60,7 +60,7 @@ export function contextual (label) {
 					{...props}
 					contextual-label={label}
 					contextual-id={id}
-					_component={component}
+					component={component}
 				/>
 			);
 		};
@@ -68,4 +68,3 @@ export function contextual (label) {
 		return HOC.hoistStatics(cmp, component, 'ContextualSearch');
 	};
 }
-
