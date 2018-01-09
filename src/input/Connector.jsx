@@ -20,19 +20,22 @@ export default class SearchInputConnector extends React.Component {
 
 	attachInputRef = x => this.input = x
 
-	focus () {
-		if (this.input) {
-			this.input.focus();
-		}
-	}
-
-
 	get searchStore () {
 		const {store, scope} = this.props;
 
 		return store ? store : resolveStore(scope);
 	}
 
+
+	focus () {
+		if (this.input) {
+			this.input.focus();
+		}
+	}
+
+	clear () {
+		this.searchStore.setTerm('');
+	}
 
 	onChange = (value) => {
 		const {onChange} = this.props;
