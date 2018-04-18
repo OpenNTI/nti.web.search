@@ -8,7 +8,7 @@ const DEFAULT_TEXT = {
 	clear: 'Clear Search'
 };
 
-const t = scoped('@nti/web-search.context-indicator', DEFAULT_TEXT);
+const t = scoped('web-search.context-indicator', DEFAULT_TEXT);
 
 export default class SearchContextIndicator extends React.Component {
 	static propTypes = {

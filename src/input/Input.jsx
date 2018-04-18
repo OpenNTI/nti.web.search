@@ -8,7 +8,7 @@ const DEFAULT_TEXT = {
 	placeholderWithContext: 'Search %(context)s'
 };
 
-const t = scoped('@nti/web-search.input', DEFAULT_TEXT);
+const t = scoped('web-search.input', DEFAULT_TEXT);
 
 export default class SearchProviderInput extends React.Component {
 	static propTypes = {
