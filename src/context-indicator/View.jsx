@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {scoped} from 'nti-lib-locale';
+import {scoped} from '@nti/lib-locale';
 
 const DEFAULT_TEXT = {
 	results: 'Results for "%(term)s"',
 	clear: 'Clear Search'
 };
 
-const t = scoped('nti-web-search.context-indicator', DEFAULT_TEXT);
+const t = scoped('@nti/web-search.context-indicator', DEFAULT_TEXT);
 
 export default class SearchContextIndicator extends React.Component {
 	static propTypes = {

@@ -1,5 +1,5 @@
 {
-  "name": "nti-web-search",
+  "name": "@nti/web-search",
   "version": "0.6.0-alpha",
   "description": "Search Components",
   "main": "./lib/index-cjs.js",
@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/NextThought/nti.web.component.search#readme",
   "dependencies": {
+    "@nti/lib-commons": "^2.9.0",
+    "@nti/lib-locale": "^1.0.9",
+    "@nti/lib-store-connector": "0.x.x",
+    "@nti/style-common": "^1.3.0",
+    "@nti/util-logger": "^1.1.2",
+    "@nti/web-commons": "0.x.x",
     "classnames": "^2.2.5",
-    "nti-commons": "^2.9.0",
-    "nti-lib-locale": "^1.0.9",
-    "nti-lib-store-connector": "0.x.x",
-    "nti-style-common": "^1.3.0",
-    "nti-util-logger": "^1.1.2",
-    "nti-web-commons": "0.x.x",
     "prop-types": "^15.6.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 
-import Logger from 'nti-util-logger';
+import Logger from '@nti/util-logger';
 
 const log = Logger.get('web:search:store');
 

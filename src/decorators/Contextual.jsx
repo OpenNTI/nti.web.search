@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HOC} from 'nti-commons';
+import {HOC} from '@nti/lib-commons';
 
 import SearchStore from '../Store';
 
