@@ -2,17 +2,17 @@
   "name": "@nti/web-search",
   "version": "0.6.0-alpha",
   "description": "Search Components",
-  "main": "./lib/index-cjs.js",
-  "module": "./lib/index.js",
+  "main": "lib/index-cjs.js",
+  "module": "lib/index.js",
   "scripts": {
-    "test": "nti-cmp-scripts test",
-    "start": "nti-cmp-scripts start",
-    "prepack": "nti-cmp-scripts build",
-    "build": "nti-cmp-scripts build",
-    "clean": "nti-cmp-scripts clean",
-    "check": "nti-cmp-scripts check",
-    "release": "nti-cmp-scripts release",
-    "install-snapshots": "nti-cmp-scripts install-snapshots"
+    "test": "cmp-scripts test",
+    "start": "cmp-scripts start",
+    "prepack": "cmp-scripts build",
+    "build": "cmp-scripts build",
+    "clean": "cmp-scripts clean",
+    "check": "cmp-scripts check",
+    "release": "cmp-scripts release",
+    "install-snapshots": "cmp-scripts install-snapshots"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "prop-types": "^15.6.0"
   },
   "devDependencies": {
-    "nti-cmp-scripts": "^1.0.52",
+    "@nti/cmp-scripts": "^1.16.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }
