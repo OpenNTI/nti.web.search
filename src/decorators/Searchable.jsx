@@ -6,13 +6,41 @@ import StoreConnector from '@nti/lib-store-connector';
 import SearchStore from '../Store';
 
 export class Searchable extends React.Component {
-	static propTypes = {
-		'searchable-store': PropTypes.object,
-		'searchable-propMap': PropTypes.object,
 
-		_component: PropTypes.any,
-		children: PropTypes.element,
-		forwardedRef: PropTypes.any
+	/**
+	 * Used to compose a Component Class. This returns a new Component Type.
+	 *
+	 * @param  {Object} store The store to connect to.
+	 * @param  {Class} component The component to compose & wire to store updates.
+	 * @param  {Object} propMap mapping of key from store to a a prop name.
+	 *                          Ex:
+	 *                          {
+	 *                              'AppUser': 'user',
+	 *                              'AppName': 'title',
+	 *                          }
+	 * @param  {Function} onMount A callback after the component mounts. Handy to dynamically build stores or load data.
+	 * @param  {Function} onUnmount A callback before the component unmounts.
+	 * @return {Function} A Composed Component
+	 */
+	static connect (store, component, propMap, onMount, onUnmount) {
+		const cmp = React.forwardRef((props, ref) => (
+			<Searchable
+				{...this.props}
+				_forwardedRef={ref}
+				_store={store}
+				_propMap={propMap}
+				_component={component}
+				_onMount={onMount}
+				_onUnmount={onUnmount}
+			/>
+		));
+
+		return HOC.hoistStatics(cmp, component, 'SearchableStoreConnector');
+	}
+
+	static propTypes = {
+		_forwardedRef: PropTypes.any,
+		_store: PropTypes.object
 	}
 
 
@@ -34,10 +62,10 @@ export class Searchable extends React.Component {
 
 
 	updateSearchTerm () {
-		const {['searchable-store']: store} = this.props;
+		const {_store} = this.props;
 
-		if (store && store.updateSearchTerm) {
-			store.updateSearchTerm(this.searchStore.searchTerm);
+		if (_store && _store.updateSearchTerm) {
+			_store.updateSearchTerm(this.searchStore.searchTerm);
 		}
 	}
 
@@ -51,31 +79,27 @@ export class Searchable extends React.Component {
 
 	render () {
 		const {
-			['searchable-store']:store,
-			['searchable-propMap']:propMap,
-			forwardedRef,
+			_forwardedRef,
 			...otherProps
 		} = this.props;
 
 		return (
-			<StoreConnector _store={store} _propMap={propMap} {...otherProps} ref={forwardedRef}/>
+			<StoreConnector {...otherProps} ref={_forwardedRef}/>
 		);
 	}
 }
 
 
+/**
+ * Use Searchable.connet
+ * @deprecated
+ *
+ * @method searchable
+ * @param  {Object}   store   The store that implements the searchable interfaces
+ * @param  {Object}   propMap A mapping of store values to propNames to apply to the component.
+ * @return {Function} A decorator that returns a Composed Component
+ */
 export function searchable (store, propMap) {
-	return function decorator (component) {
-		const SearchableComposer = React.forwardRef((props, ref) => (
-			<Searchable
-				{...this.props}
-				searchable-store={store}
-				searchable-propMap={propMap}
-				_component={component}
-			/>
-		));
-
-
-		return HOC.hoistStatics(SearchableComposer, component, 'Searchable');
-	};
+	return (component) =>
+		Searchable.connect(store, component, propMap);
 }
