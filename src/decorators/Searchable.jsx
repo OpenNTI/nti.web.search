@@ -11,7 +11,8 @@ export class Searchable extends React.Component {
 		'searchable-propMap': PropTypes.object,
 
 		_component: PropTypes.any,
-		children: PropTypes.element
+		children: PropTypes.element,
+		forwardedRef: PropTypes.any
 	}
 
 
@@ -49,10 +50,15 @@ export class Searchable extends React.Component {
 
 
 	render () {
-		const {['searchable-store']:store, ['searchable-propMap']:propMap, ...otherProps} = this.props;
+		const {
+			['searchable-store']:store,
+			['searchable-propMap']:propMap,
+			forwardedRef,
+			...otherProps
+		} = this.props;
 
 		return (
-			<StoreConnector _store={store} _propMap={propMap} {...otherProps} />
+			<StoreConnector _store={store} _propMap={propMap} {...otherProps} ref={forwardedRef}/>
 		);
 	}
 }
@@ -60,21 +66,16 @@ export class Searchable extends React.Component {
 
 export function searchable (store, propMap) {
 	return function decorator (component) {
-		//eslint-disable-next-line react/prefer-stateless-function
-		class SearchableComposer extends React.Component {
-			render () {
-				return (
-					<Searchable
-						{...this.props}
-						searchable-store={store}
-						searchable-propMap={propMap}
-						_component={component}
-					/>
-				);
-			}
-		}
+		const SearchableComposer = React.forwardRef((props, ref) => (
+			<Searchable
+				{...this.props}
+				searchable-store={store}
+				searchable-propMap={propMap}
+				_component={component}
+			/>
+		));
+
 
 		return HOC.hoistStatics(SearchableComposer, component, 'Searchable');
 	};
 }
-

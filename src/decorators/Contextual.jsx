@@ -12,7 +12,8 @@ export class Contextual extends React.Component {
 		'contextual-id': PropTypes.string.isRequired,
 
 		component: PropTypes.any,
-		children: PropTypes.element
+		children: PropTypes.element,
+		forwardedRef: PropTypes.any
 	}
 
 	constructor (props) {
@@ -37,10 +38,12 @@ export class Contextual extends React.Component {
 
 
 	render () {
-		const {component, children, ...otherProps} = this.props;
+		const {forwardedRef, component, children, ...otherProps} = this.props;
 
 		delete otherProps['contextual-id'];
 		delete otherProps['contextual-label'];
+
+		otherProps.ref = forwardedRef;
 
 		return component ?
 			React.createElement(component, otherProps) :
@@ -54,16 +57,16 @@ export function contextual (label) {
 	seen += 1;
 
 	return function decorator (component) {
-		const cmp = (props) => {
-			return (
-				<Contextual
-					{...props}
-					contextual-label={label}
-					contextual-id={id}
-					component={component}
-				/>
-			);
-		};
+		const cmp = React.forwardRef((props, ref) => (
+			<Contextual
+				{...props}
+				contextual-label={label}
+				contextual-id={id}
+				component={component}
+				forwardedRef={ref}
+			/>
+		));
+
 
 		return HOC.hoistStatics(cmp, component, 'ContextualSearch');
 	};
