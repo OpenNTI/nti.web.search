@@ -10,6 +10,9 @@ export class Searchable extends React.Component {
 	/**
 	 * Used to compose a Component Class. This returns a new Component Type.
 	 *
+	 * This is intended to be incorporated into a store's connect() decorator,
+	 * and not meant to be used directly as a decorator.
+	 *
 	 * @param  {Object} store The store to connect to.
 	 * @param  {Class} component The component to compose & wire to store updates.
 	 * @param  {Object} propMap mapping of key from store to a a prop name.
@@ -91,15 +94,19 @@ export class Searchable extends React.Component {
 
 
 /**
- * Use Searchable.connet
- * @deprecated
- *
+ * @deprecated Use Searchable.connect() in a store's connect decorator instead.
  * @method searchable
  * @param  {Object}   store   The store that implements the searchable interfaces
  * @param  {Object}   propMap A mapping of store values to propNames to apply to the component.
  * @return {Function} A decorator that returns a Composed Component
  */
 export function searchable (store, propMap) {
-	return (component) =>
-		Searchable.connect(store, component, propMap);
+	return (component) => (
+		// I want this warning to be visible no matter what...hence, the disabled lint line.
+		// DO NOT do this for your debug console logging.
+		console.warn( //eslint-disable-line no-console
+			'Do not use @searchable() decorator, use a store’s connect decorator instead.\nCaused by: %o',
+			component.name || component.displayName || component
+		),
+		Searchable.connect(store, component, propMap));
 }
