@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {HOC} from '@nti/lib-commons';
+import StoreConnector from '@nti/lib-store-connector';
 
 import SearchStore from '../Store';
 
@@ -174,7 +175,7 @@ export class Searchable extends React.Component {
 		const searchTerm = store ? store.searchTerm : null;
 
 		return (
-			React.cloneElement(React.Children.only(children), {searchTerm});
+			React.cloneElement(React.Children.only(children), {searchTerm})
 		);
 	}
 }
@@ -185,14 +186,14 @@ export function searchable (scope, propMap) {
 	if (typeof scoped !== 'string') {
 		return (component) => {
 			// I want this warning to be visible no matter what...hence, the disabled lint line.
-		    // DO NOT do this for your debug console logging.
+			// DO NOT do this for your debug console logging.
 			console.warn( //eslint-disable-line no-console
 				'Do not use @searchable() decorator, use a store’s connect decorator instead.\nCaused by: %o',
 				component.name || component.displayName || component
 			);
 
 			return SearchableStore.connect(scope, component, propMap);
-		}
+		};
 	}
 
 	return (Component) => {
@@ -208,5 +209,5 @@ export function searchable (scope, propMap) {
 		HOC.hoistStatics(cmp, Component, 'Searchable');
 
 		return cmp;
-	}
+	};
 }
