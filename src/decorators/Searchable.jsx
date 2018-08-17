@@ -183,7 +183,7 @@ export class Searchable extends React.Component {
 
 
 export function searchable (scope, propMap) {
-	if (typeof scoped !== 'string') {
+	if (scoped && typeof scoped !== 'string') {
 		return (component) => {
 			// I want this warning to be visible no matter what...hence, the disabled lint line.
 			// DO NOT do this for your debug console logging.
