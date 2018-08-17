@@ -12,81 +12,6 @@ function getSearchStore (scope) {
 	return SearchStore.getGlobal();
 }
 
-export class Searchable extends React.Component {
-	static connect = SearchableStore.connect
-
-	static propTypes = {
-		scope: PropTypes.string,
-		children: PropTypes.element
-	}
-
-	state = {}
-
-
-	componentDidMount () {
-		this.setupFor(this.props);
-	}
-
-
-	componentDidUpdate (prevProps) {
-		const {scope} = this.props;
-		const {scope:prevScope} = prevProps;
-
-		if (prevScope !== scope) {
-			this.setupFor(this.props);
-		}
-	}
-
-
-	componentWillUnmount () {
-		this.unmounted = true;
-
-		if (this.unsubscribe) {
-
-		}
-	}
-
-
-	setupFor (props) {
-		const {scope} = this.props;
-		const store = getSearchStore(scope);
-
-		this.setState({
-			store
-		});
-
-		if (this.unsubscribe) {
-			this.unsubscribe();
-		}
-
-		store.addChangeListener(this.onStoreChange);
-
-		this.unsubscribe = () => {
-			store.removeChangeListener(this.onStoreChange);
-			delete this.unsubscribe;
-		};
-	}
-
-
-	onStoreChange = () => {
-		if (!this.unmounted) {
-			this.forceUpdate();
-		}
-	}
-
-
-	render () {
-		const {children} = this.props;
-		const {store} = this.state;
-		const searchTerm = store ? store.searchTerm : null;
-
-		return (
-			React.cloneElement(React.Children.only(children), {searchTerm});
-		);
-	}
-}
-
-
 class SearchableStore extends React.Component {
 
 	/**
@@ -115,7 +40,7 @@ class SearchableStore extends React.Component {
 		);
 
 		const cmp = React.forwardRef((props, ref) => (
-			<Searchable
+			<SearchableStore
 				{...props}
 				_forwardedRef={ref}
 				_store={store}
@@ -179,6 +104,81 @@ class SearchableStore extends React.Component {
 		);
 	}
 }
+
+export class Searchable extends React.Component {
+	static connect = SearchableStore.connect
+
+	static propTypes = {
+		scope: PropTypes.string,
+		children: PropTypes.element
+	}
+
+	state = {}
+
+
+	componentDidMount () {
+		this.setupFor(this.props);
+	}
+
+
+	componentDidUpdate (prevProps) {
+		const {scope} = this.props;
+		const {scope:prevScope} = prevProps;
+
+		if (prevScope !== scope) {
+			this.setupFor(this.props);
+		}
+	}
+
+
+	componentWillUnmount () {
+		this.unmounted = true;
+
+		if (this.unsubscribe) {
+			this.unsubscribe();
+		}
+	}
+
+
+	setupFor (props) {
+		const {scope} = this.props;
+		const store = getSearchStore(scope);
+
+		this.setState({
+			store
+		});
+
+		if (this.unsubscribe) {
+			this.unsubscribe();
+		}
+
+		store.addChangeListener(this.onStoreChange);
+
+		this.unsubscribe = () => {
+			store.removeChangeListener(this.onStoreChange);
+			delete this.unsubscribe;
+		};
+	}
+
+
+	onStoreChange = () => {
+		if (!this.unmounted) {
+			this.forceUpdate();
+		}
+	}
+
+
+	render () {
+		const {children} = this.props;
+		const {store} = this.state;
+		const searchTerm = store ? store.searchTerm : null;
+
+		return (
+			React.cloneElement(React.Children.only(children), {searchTerm});
+		);
+	}
+}
+
 
 
 export function searchable (scope, propMap) {
