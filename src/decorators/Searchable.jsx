@@ -13,6 +13,8 @@ function getSearchStore (scope) {
 }
 
 export class Searchable extends React.Component {
+	static connect = SearchableStore.connect
+
 	static propTypes = {
 		scope: PropTypes.string,
 		children: PropTypes.element
@@ -88,6 +90,7 @@ export class Searchable extends React.Component {
 class SearchableStore extends React.Component {
 
 	/**
+	 * TODO: Migrate all uses of this to the new system
 	 * Used to compose a Component Class. This returns a new Component Type.
 	 *
 	 * This is intended to be incorporated into a store's connect() decorator,
@@ -106,6 +109,11 @@ class SearchableStore extends React.Component {
 	 * @return {Function} A Composed Component
 	 */
 	static connect (store, component, propMap, onMount, onUnmount) {
+		console.warn( //eslint-disable-line no-console
+			'Do not use @searchable() decorator, use a store’s connect decorator instead.\nCaused by: %o',
+			component.name || component.displayName || component
+		);
+
 		const cmp = React.forwardRef((props, ref) => (
 			<Searchable
 				{...props}
@@ -176,7 +184,7 @@ class SearchableStore extends React.Component {
 export function searchable (scope, propMap) {
 	if (typeof scoped !== 'string') {
 		return (component) => {
-			 // I want this warning to be visible no matter what...hence, the disabled lint line.
+			// I want this warning to be visible no matter what...hence, the disabled lint line.
 		    // DO NOT do this for your debug console logging.
 			console.warn( //eslint-disable-line no-console
 				'Do not use @searchable() decorator, use a store’s connect decorator instead.\nCaused by: %o',
