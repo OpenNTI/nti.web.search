@@ -200,7 +200,7 @@ export function searchable (scope, propMap) {
 		const cmp = React.forwardRef((props, ref) => {
 			return (
 				<Searchable scope={scope}>
-					<Component ref={ref} />
+					<Component ref={ref} {...props} />
 				</Searchable>
 			);
 		});
