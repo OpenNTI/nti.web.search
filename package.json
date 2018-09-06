@@ -2,8 +2,12 @@
   "name": "@nti/web-search",
   "version": "0.10.0-alpha",
   "description": "Search Components",
-  "main": "lib/index-cjs.js",
-  "module": "lib/index.js",
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "files": [
+    "lib",
+    "src"
+  ],
   "scripts": {
     "test": "cmp-scripts test",
     "start": "cmp-scripts start",
@@ -38,7 +42,7 @@
     "prop-types": "^15.6.0"
   },
   "devDependencies": {
-    "@nti/cmp-scripts": "^1.17.16",
+    "@nti/cmp-scripts": "^2.0.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }
