@@ -5,8 +5,6 @@ import {Input, ContextIndicator} from '../../src';
 
 import TestCmp from './TestCmp';
 
-import '@nti/style-common/all.scss';
-import '@nti/web-commons/lib/index.css';
 
 window.$AppConfig = window.$AppConfig || {server: '/dataserver2/'};
 
