@@ -35,10 +35,6 @@ class SearchableStore extends React.Component {
 	 * @return {Function} A Composed Component
 	 */
 	static connect (store, component, propMap, onMount, onUnmount) {
-		console.warn( //eslint-disable-line no-console
-			'Do not use @searchable() decorator, use a store’s connect decorator instead.\nCaused by: %o',
-			component.name || component.displayName || component
-		);
 
 		const cmp = React.forwardRef((props, ref) => (
 			<SearchableStore
@@ -51,6 +47,8 @@ class SearchableStore extends React.Component {
 				_onUnmount={onUnmount}
 			/>
 		));
+
+		cmp.displayName = `SearchableConnected[${component.name || component.displayName}]`;
 
 		return HOC.hoistStatics(cmp, component, 'SearchableStoreConnector');
 	}
@@ -205,6 +203,7 @@ export function searchable (scope, propMap) {
 			);
 		});
 
+		cmp.displayName = `SearchableDecorator[${Component.name || Component.displayName}]`;
 
 		HOC.hoistStatics(cmp, Component, 'Searchable');
 

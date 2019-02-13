@@ -67,6 +67,7 @@ export function contextual (label) {
 			/>
 		));
 
+		cmp.displayName = `ContextualSearchDecorator[${component.displayName}]`;
 
 		return HOC.hoistStatics(cmp, component, 'ContextualSearch');
 	};
