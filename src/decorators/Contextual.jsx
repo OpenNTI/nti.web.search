@@ -46,7 +46,7 @@ export class Contextual extends React.Component {
 		otherProps.ref = forwardedRef;
 
 		return component ?
-			React.createElement(component, otherProps) :
+			React.createElement(component, otherProps, children) :
 			React.cloneElement(React.Children.only(children), otherProps);
 	}
 }
