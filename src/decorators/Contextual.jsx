@@ -51,7 +51,7 @@ export class Contextual extends React.Component {
 	}
 }
 
-export function contextual (label) {
+export function contextual (label, getContext = (_, id) => id) {
 	const id = seen.toString();
 
 	seen += 1;
@@ -61,7 +61,7 @@ export function contextual (label) {
 			<Contextual
 				{...props}
 				contextual-label={label}
-				contextual-id={id}
+				contextual-id={getContext(props, id)}
 				component={component}
 				forwardedRef={ref}
 			/>
