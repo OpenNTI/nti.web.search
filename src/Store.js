@@ -98,14 +98,9 @@ export default class SearchProviderStore extends EventEmitter {
 	setTerm (term) {
 		if (term === this._searchTerm) { return; }
 
-		if(this.contextID) {
-			this._searchTerms[this.contextID] = term;
-		}
-
-		this._searchTerms[DEFAULT] = term;
+		this._searchTerms[this.contextID || DEFAULT] = term;
 
 		this.emitChange('searchTerm');
-
 
 		if (this._history) {
 			this._history.replace({
