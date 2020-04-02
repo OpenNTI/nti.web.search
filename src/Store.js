@@ -98,7 +98,11 @@ export default class SearchProviderStore extends EventEmitter {
 	setTerm (term) {
 		if (term === this._searchTerm) { return; }
 
-		this._searchTerms[this.contextID || DEFAULT] = term;
+		if (this.contextID) {
+			this._searchTerms[this.contextID] = term;
+		}
+
+		this._searchTerms[DEFAULT] = term;
 
 		this.emitChange('searchTerm');
 
@@ -129,6 +133,10 @@ export default class SearchProviderStore extends EventEmitter {
 
 
 	removeContext (id, label) {
+		if (id === this.contextID) {
+			this._searchTerms[DEFAULT] = '';
+		}
+
 		this._contexts = this._contexts.filter(context => context.id !== id);
 		this.emitChange('context', 'searchTerm');
 	}
