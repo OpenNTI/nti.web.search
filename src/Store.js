@@ -6,6 +6,7 @@ const log = Logger.get('web:search:store');
 
 const DEFAULT = 'default';
 
+
 export default class SearchProviderStore extends EventEmitter {
 	static getGlobal () {
 		return this.getForScope('GlobalSearch');
@@ -114,6 +115,10 @@ export default class SearchProviderStore extends EventEmitter {
 				}
 			});
 		}
+	}
+
+	setupTermForContext (term, context) {
+		this._searchTerms[context] = term;
 	}
 
 
