@@ -11,12 +11,9 @@
   "scripts": {
     "test": "cmp-scripts test",
     "start": "cmp-scripts start",
-    "prepack": "cmp-scripts build",
-    "build": "cmp-scripts build",
     "clean": "cmp-scripts clean",
     "check": "cmp-scripts check",
-    "release": "cmp-scripts release",
-    "install-snapshots": "cmp-scripts install-snapshots"
+    "release": "cmp-scripts release"
   },
   "repository": {
     "type": "git",
@@ -32,12 +29,12 @@
   },
   "homepage": "https://github.com/NextThought/nti.web.component.search#readme",
   "dependencies": {
-    "@nti/lib-commons": "^2.9.0",
-    "@nti/lib-locale": "^1.0.9",
-    "@nti/lib-store-connector": "0.x.x",
-    "@nti/style-common": "^1.3.0",
-    "@nti/util-logger": "^1.1.2",
-    "@nti/web-commons": "0.x.x",
+    "@nti/lib-commons": "NextThought/nti.lib.commons",
+    "@nti/lib-locale": "NextThought/nti.lib.locale",
+    "@nti/lib-store-connector": "NextThought/nti.lib.store.connector",
+    "@nti/style-common": "NextThought/nti.style.common",
+    "@nti/util-logger": "NextThought/nti.util.logger",
+    "@nti/web-commons": "NextThought/nti.web.commons",
     "classnames": "^2.2.5",
     "prop-types": "^15.6.0"
   },
