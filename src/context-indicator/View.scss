@@ -24,7 +24,7 @@ $CUSTOM_RANGES: (
 
 	.results-for {
 		font: normal 300 2.25rem/1.4 $body-font-family;
-		color: $primary-grey;
+		color: var(--primary-grey);
 
 		@include responsive-range(mobile, $CUSTOM_RANGES) {
 			font: normal 300 1.6rem/1.4 $body-font-family;
