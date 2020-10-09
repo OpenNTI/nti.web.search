@@ -6,14 +6,14 @@ $CUSTOM_RANGES: (
 
 .search-context-indicator {
 	padding: 1.5rem 0;
-	box-shadow: 0 1px 0 0 $border-grey-light;
+	box-shadow: 0 1px 0 0 var(--border-grey-light);
 
 	@include responsive-range(mobile, $CUSTOM_RANGES) {
 		box-shadow: none;
 	}
 
 	.back {
-		font: normal 300 0.875rem/1.4 $body-font-family;
+		font: normal 300 0.875rem/1.4 var(--body-font-family);
 		margin-bottom: 0.75rem;
 		cursor: pointer;
 
@@ -23,11 +23,11 @@ $CUSTOM_RANGES: (
 	}
 
 	.results-for {
-		font: normal 300 2.25rem/1.4 $body-font-family;
-		color: $primary-grey;
+		font: normal 300 2.25rem/1.4 var(--body-font-family);
+		color: var(--primary-grey);
 
 		@include responsive-range(mobile, $CUSTOM_RANGES) {
-			font: normal 300 1.6rem/1.4 $body-font-family;
+			font: normal 300 1.6rem/1.4 var(--body-font-family);
 		}
 	}
 }
