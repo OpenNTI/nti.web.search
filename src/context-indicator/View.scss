@@ -13,7 +13,7 @@ $CUSTOM_RANGES: (
 	}
 
 	.back {
-		font: normal 300 0.875rem/1.4 $body-font-family;
+		font: normal 300 0.875rem/1.4 var(--body-font-family);
 		margin-bottom: 0.75rem;
 		cursor: pointer;
 
@@ -23,11 +23,11 @@ $CUSTOM_RANGES: (
 	}
 
 	.results-for {
-		font: normal 300 2.25rem/1.4 $body-font-family;
+		font: normal 300 2.25rem/1.4 var(--body-font-family);
 		color: var(--primary-grey);
 
 		@include responsive-range(mobile, $CUSTOM_RANGES) {
-			font: normal 300 1.6rem/1.4 $body-font-family;
+			font: normal 300 1.6rem/1.4 var(--body-font-family);
 		}
 	}
 }
