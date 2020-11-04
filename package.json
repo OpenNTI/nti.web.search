@@ -32,7 +32,6 @@
     "@nti/lib-commons": "NextThought/nti.lib.commons",
     "@nti/lib-locale": "NextThought/nti.lib.locale",
     "@nti/lib-store-connector": "NextThought/nti.lib.store.connector",
-    "@nti/style-common": "NextThought/nti.style.common",
     "@nti/util-logger": "NextThought/nti.util.logger",
     "@nti/web-commons": "NextThought/nti.web.commons",
     "classnames": "^2.2.5",
@@ -40,6 +39,7 @@
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.0.0",
+    "@nti/style-common": "NextThought/nti.style.common",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
   }
