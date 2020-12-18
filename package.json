@@ -33,14 +33,16 @@
     "@nti/lib-locale": "NextThought/nti.lib.locale",
     "@nti/lib-store-connector": "NextThought/nti.lib.store.connector",
     "@nti/util-logger": "NextThought/nti.util.logger",
-    "@nti/web-commons": "NextThought/nti.web.commons",
-    "classnames": "^2.2.5",
-    "prop-types": "^15.6.0"
+    "@nti/web-commons": "NextThought/nti.web.commons"
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.0.0",
-    "@nti/style-common": "NextThought/nti.style.common",
-    "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "@nti/style-common": "NextThought/nti.style.common"
+  },
+  "peerDependencies": {
+    "classnames": "*",
+    "react": "*",
+    "react-dom": "*",
+    "prop-types": "*"
   }
 }
