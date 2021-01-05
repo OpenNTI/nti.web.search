@@ -180,16 +180,10 @@ export class Searchable extends React.Component {
 
 
 
+// Decorators are being removed in favor of composition & hooks.
 export function searchable (scope, propMap) {
 	if (scope && typeof scope !== 'string') {
 		return (component) => {
-			// I want this warning to be visible no matter what...hence, the disabled lint line.
-			// DO NOT do this for your debug console logging.
-			console.warn( //eslint-disable-line no-console
-				'Do not use @searchable() decorator, use a store’s connect decorator instead.\nCaused by: %o',
-				component.name || component.displayName || component
-			);
-
 			return SearchableStore.connect(scope, component, propMap);
 		};
 	}
