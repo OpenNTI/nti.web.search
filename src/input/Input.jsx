@@ -41,7 +41,14 @@ export default class SearchProviderInput extends React.Component {
 		const placeholder = context ? t('placeholderWithContext', {context}) : t('placeholder');
 
 		return (
-			<Input.Text {...otherProps} value={value} onChange={this.onChange} placeholder={placeholder} ref={this.attachInputRef} />
+			<Input.Text
+				data-testid="search"
+				{...otherProps}
+				value={value}
+				onChange={this.onChange}
+				placeholder={placeholder}
+				ref={this.attachInputRef}
+			/>
 		);
 	}
 }
