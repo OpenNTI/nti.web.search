@@ -1,4 +1,4 @@
-export ContextIndicator from './context-indicator';
+export { default as ContextIndicator } from './context-indicator';
 export * from './decorators';
-export Input from './input';
-export Store from './Store';
+export { default as Input } from './input';
+export { default as Store } from './Store';
