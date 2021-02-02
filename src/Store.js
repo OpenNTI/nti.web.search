@@ -69,7 +69,7 @@ export default class SearchProviderStore extends EventEmitter {
 	 * Should come from https://github.com/ReactTraining/history
 	 *
 	 * @param {Object} history the history to bind search to
-	 * @return {undefined}
+	 * @returns {undefined}
 	 */
 	setHistory (history) {
 		if (this._history === history) { return; }

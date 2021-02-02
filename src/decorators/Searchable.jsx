@@ -32,7 +32,7 @@ class SearchableStore extends React.Component {
 	 *                          }
 	 * @param  {Function} onMount A callback after the component mounts. Handy to dynamically build stores or load data.
 	 * @param  {Function} onUnmount A callback before the component unmounts.
-	 * @return {Function} A Composed Component
+	 * @returns {Function} A Composed Component
 	 */
 	static connect (store, component, propMap, onMount, onUnmount) {
 
