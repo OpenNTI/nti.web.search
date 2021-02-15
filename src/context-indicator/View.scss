@@ -1,7 +1,10 @@
 @import '~@nti/style-common';
 
 $CUSTOM_RANGES: (
-	mobile: (null, 736px)
+	mobile: (
+		null,
+		736px,
+	),
 );
 
 .search-context-indicator {

@@ -7,13 +7,13 @@ import Store from '../Store';
 import View from './View';
 
 ContextConnector.propTypes = {
-	store: PropTypes.object
+	store: PropTypes.object,
 };
-export default function ContextConnector ({store, ...otherProps}) {
+export default function ContextConnector({ store, ...otherProps }) {
 	store = store || Store.getGlobal();
 
 	return (
-		<Connector _store={store} _propMap={{searchTerm: 'searchTerm'}}>
+		<Connector _store={store} _propMap={{ searchTerm: 'searchTerm' }}>
 			<View {...otherProps} store={store} />
 		</Connector>
 	);

@@ -8,62 +8,64 @@ import Input from './Input';
 
 const propMap = {
 	searchTerm: 'value',
-	context: 'context'
+	context: 'context',
 };
 
 export default class SearchInputConnector extends React.Component {
 	static propTypes = {
 		store: PropTypes.object,
 		scope: PropTypes.string,
-		onChange: PropTypes.func
-	}
+		onChange: PropTypes.func,
+	};
 
-	attachInputRef = x => this.input = x
+	attachInputRef = x => (this.input = x);
 
-	get searchStore () {
-		const {store, scope} = this.props;
+	get searchStore() {
+		const { store, scope } = this.props;
 
 		return store ? store : resolveStore(scope);
 	}
 
-
-	focus () {
+	focus() {
 		if (this.input) {
 			this.input.focus();
 		}
 	}
 
-	clear () {
+	clear() {
 		this.searchStore.setTerm('');
 	}
 
-	onChange = (value) => {
-		const {onChange} = this.props;
-		const {searchStore} = this;
+	onChange = value => {
+		const { onChange } = this.props;
+		const { searchStore } = this;
 
 		searchStore.setTerm(value);
 
 		if (onChange) {
 			onChange(value);
 		}
-	}
+	};
 
-
-	render () {
-		const {searchStore} = this;
-		const {...otherProps} = this.props;
+	render() {
+		const { searchStore } = this;
+		const { ...otherProps } = this.props;
 
 		delete otherProps.store;
 		delete otherProps.scope;
 
 		return (
 			<Connector _store={searchStore} _propMap={propMap}>
-				<Input {...otherProps} onChange={this.onChange} ref={this.attachInputRef} />
+				<Input
+					{...otherProps}
+					onChange={this.onChange}
+					ref={this.attachInputRef}
+				/>
 			</Connector>
 		);
 	}
 }
 
-function resolveStore (scope) {
+function resolveStore(scope) {
 	return scope ? Store.getForScope(scope) : Store.getGlobal();
 }

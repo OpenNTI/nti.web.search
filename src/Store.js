@@ -6,22 +6,21 @@ const log = Logger.get('web:search:store');
 
 const DEFAULT = 'default';
 
-
 export default class SearchProviderStore extends EventEmitter {
-	static getGlobal () {
+	static getGlobal() {
 		return this.getForScope('GlobalSearch');
 	}
 
-	static getForScope (name) {
+	static getForScope(name) {
 		this._instances = this._instances || {};
 
-		this._instances[name] = this._instances[name] || new SearchProviderStore(name);
+		this._instances[name] =
+			this._instances[name] || new SearchProviderStore(name);
 
 		return this._instances[name];
 	}
 
-
-	constructor (name) {
+	constructor(name) {
 		super();
 
 		this._name = name;
@@ -31,36 +30,31 @@ export default class SearchProviderStore extends EventEmitter {
 		this._contexts = [];
 	}
 
-
-	get searchTerm () {
+	get searchTerm() {
 		return this._searchTerms[this.contextID || DEFAULT];
 	}
 
-
-	get changing () {
+	get changing() {
 		return this._termChanging;
 	}
 
-
-	get context () {
+	get context() {
 		const context = this._contexts[0];
 
 		return context && context.label;
 	}
 
-	get contextID () {
+	get contextID() {
 		const context = this._contexts[0];
 
 		return context && context.id;
 	}
 
-
-	get hasContext () {
+	get hasContext() {
 		return this._contexts.length > 0;
 	}
 
-
-	get (key) {
+	get(key) {
 		return this[key];
 	}
 
@@ -71,8 +65,10 @@ export default class SearchProviderStore extends EventEmitter {
 	 * @param {Object} history the history to bind search to
 	 * @returns {undefined}
 	 */
-	setHistory (history) {
-		if (this._history === history) { return; }
+	setHistory(history) {
+		if (this._history === history) {
+			return;
+		}
 
 		if (this._unsubscribeFromHistory) {
 			this._unsubscribeFromHistory();
@@ -84,20 +80,20 @@ export default class SearchProviderStore extends EventEmitter {
 		this.onHistoryChange(history.location);
 	}
 
-
-	onHistoryChange = (location) => {
-		const {state} = location;
+	onHistoryChange = location => {
+		const { state } = location;
 		const searchTerm = (state || {})[this._name];
 
 		if (this._searchTerm !== searchTerm) {
 			this._searchTerm = searchTerm;
 			this.emitChange('searchTerm');
 		}
-	}
+	};
 
-
-	setTerm (term) {
-		if (term === this._searchTerm) { return; }
+	setTerm(term) {
+		if (term === this._searchTerm) {
+			return;
+		}
 
 		if (this.contextID) {
 			this._searchTerms[this.contextID] = term;
@@ -111,33 +107,33 @@ export default class SearchProviderStore extends EventEmitter {
 			this._history.replace({
 				...this._history.location,
 				state: {
-					[this._name]: term
-				}
+					[this._name]: term,
+				},
 			});
 		}
 	}
 
-	setupTermForContext (term, context) {
+	setupTermForContext(term, context) {
 		this._searchTerms[context] = term;
 	}
 
-
-	addContext (id, label) {
+	addContext(id, label) {
 		const exists = this._contexts.some(context => context.id === id);
 
 		if (!exists) {
-			this._contexts = [{id, label}, ...this._contexts];
+			this._contexts = [{ id, label }, ...this._contexts];
 		}
 
 		if (this._contexts.length > 1) {
-			log.warn('More than one context active. We will just take the first one');
+			log.warn(
+				'More than one context active. We will just take the first one'
+			);
 		}
 
 		this.emitChange('context', 'searchTerm');
 	}
 
-
-	removeContext (id, label) {
+	removeContext(id, label) {
 		if (id === this.contextID) {
 			this._searchTerms[DEFAULT] = '';
 		}
@@ -146,18 +142,15 @@ export default class SearchProviderStore extends EventEmitter {
 		this.emitChange('context', 'searchTerm');
 	}
 
-
-	emitChange (type) {
-		this.emit('change', {type});
+	emitChange(type) {
+		this.emit('change', { type });
 	}
 
-
-	addChangeListener (fn) {
+	addChangeListener(fn) {
 		this.addListener('change', fn);
 	}
 
-
-	removeChangeListener (fn) {
+	removeChangeListener(fn) {
 		this.removeListener('change', fn);
 	}
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HOC} from '@nti/lib-commons';
+import { HOC } from '@nti/lib-commons';
 import StoreConnector from '@nti/lib-store-connector';
 
 import SearchStore from '../Store';
 
-function getSearchStore (scope) {
+function getSearchStore(scope) {
 	if (scope) {
 		return SearchStore.getForScope(scope);
 	}
@@ -14,7 +14,6 @@ function getSearchStore (scope) {
 }
 
 class SearchableStore extends React.Component {
-
 	/**
 	 * TODO: Migrate all uses of this to the new system
 	 * Used to compose a Component Class. This returns a new Component Type.
@@ -34,8 +33,7 @@ class SearchableStore extends React.Component {
 	 * @param  {Function} onUnmount A callback before the component unmounts.
 	 * @returns {Function} A Composed Component
 	 */
-	static connect (store, component, propMap, onMount, onUnmount) {
-
+	static connect(store, component, propMap, onMount, onUnmount) {
 		const cmp = React.forwardRef((props, ref) => (
 			<SearchableStore
 				{...props}
@@ -48,89 +46,77 @@ class SearchableStore extends React.Component {
 			/>
 		));
 
-		cmp.displayName = `SearchableConnected[${component.name || component.displayName}]`;
+		cmp.displayName = `SearchableConnected[${
+			component.name || component.displayName
+		}]`;
 
 		return HOC.hoistStatics(cmp, component, 'SearchableStoreConnector');
 	}
 
 	static propTypes = {
 		_forwardedRef: PropTypes.any,
-		_store: PropTypes.object
-	}
+		_store: PropTypes.object,
+	};
 
-
-	constructor (props) {
+	constructor(props) {
 		super(props);
 
 		this.searchStore = SearchStore.getGlobal();
 	}
 
-
-	componentDidMount () {
+	componentDidMount() {
 		this.searchStore.addChangeListener(this.onStoreChange);
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.searchStore.removeChangeListener(this.onStoreChange);
 	}
 
-
-	updateSearchTerm () {
-		const {_store} = this.props;
+	updateSearchTerm() {
+		const { _store } = this.props;
 
 		if (_store && _store.updateSearchTerm) {
 			_store.updateSearchTerm(this.searchStore.searchTerm);
 		}
 	}
 
-
-	onStoreChange = ({type}) => {
+	onStoreChange = ({ type }) => {
 		if (type === 'searchTerm') {
 			this.updateSearchTerm();
 		}
-	}
+	};
 
+	render() {
+		const { _forwardedRef, ...otherProps } = this.props;
 
-	render () {
-		const {
-			_forwardedRef,
-			...otherProps
-		} = this.props;
-
-		return (
-			<StoreConnector {...otherProps} ref={_forwardedRef}/>
-		);
+		return <StoreConnector {...otherProps} ref={_forwardedRef} />;
 	}
 }
 
 export class Searchable extends React.Component {
-	static connect = SearchableStore.connect
+	static connect = SearchableStore.connect;
 
 	static propTypes = {
 		scope: PropTypes.string,
-		children: PropTypes.element
+		children: PropTypes.element,
+	};
+
+	state = {};
+
+	componentDidMount() {
+		this.setup(this.props);
 	}
 
-	state = {}
-
-
-	componentDidMount () {
-		this.setupFor(this.props);
-	}
-
-
-	componentDidUpdate (prevProps) {
-		const {scope} = this.props;
-		const {scope:prevScope} = prevProps;
+	componentDidUpdate(prevProps) {
+		const { scope } = this.props;
+		const { scope: prevScope } = prevProps;
 
 		if (prevScope !== scope) {
-			this.setupFor(this.props);
+			this.setup(this.props);
 		}
 	}
 
-
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.unmounted = true;
 
 		if (this.unsubscribe) {
@@ -138,13 +124,12 @@ export class Searchable extends React.Component {
 		}
 	}
 
-
-	setupFor (props) {
-		const {scope} = this.props;
+	setup(props) {
+		const { scope } = this.props;
 		const store = getSearchStore(scope);
 
 		this.setState({
-			store
+			store,
 		});
 
 		if (this.unsubscribe) {
@@ -159,36 +144,32 @@ export class Searchable extends React.Component {
 		};
 	}
 
-
 	onStoreChange = () => {
 		if (!this.unmounted) {
 			this.forceUpdate();
 		}
-	}
+	};
 
-
-	render () {
-		const {children} = this.props;
-		const {store} = this.state;
+	render() {
+		const { children } = this.props;
+		const { store } = this.state;
 		const searchTerm = store ? store.searchTerm : null;
 
-		return (
-			React.cloneElement(React.Children.only(children), {searchTerm})
-		);
+		return React.cloneElement(React.Children.only(children), {
+			searchTerm,
+		});
 	}
 }
 
-
-
 // Decorators are being removed in favor of composition & hooks.
-export function searchable (scope, propMap) {
+export function searchable(scope, propMap) {
 	if (scope && typeof scope !== 'string') {
-		return (component) => {
+		return component => {
 			return SearchableStore.connect(scope, component, propMap);
 		};
 	}
 
-	return (Component) => {
+	return Component => {
 		const cmp = React.forwardRef((props, ref) => {
 			return (
 				<Searchable scope={scope}>
@@ -197,7 +178,9 @@ export function searchable (scope, propMap) {
 			);
 		});
 
-		cmp.displayName = `SearchableDecorator[${Component.name || Component.displayName}]`;
+		cmp.displayName = `SearchableDecorator[${
+			Component.name || Component.displayName
+		}]`;
 
 		HOC.hoistStatics(cmp, Component, 'Searchable');
 

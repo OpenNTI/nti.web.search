@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {scoped} from '@nti/lib-locale';
-import {Input} from '@nti/web-commons';
+import { scoped } from '@nti/lib-locale';
+import { Input } from '@nti/web-commons';
 
 const DEFAULT_TEXT = {
 	placeholder: 'Search',
-	placeholderWithContext: 'Search %(context)s'
+	placeholderWithContext: 'Search %(context)s',
 };
 
 const t = scoped('web-search.input', DEFAULT_TEXT);
@@ -15,30 +15,30 @@ export default class SearchProviderInput extends React.Component {
 		value: PropTypes.string,
 		onChange: PropTypes.func,
 
-		context: PropTypes.string
-	}
+		context: PropTypes.string,
+	};
 
+	attachInputRef = x => (this.input = x);
 
-	attachInputRef = x => this.input = x;
-
-	focus () {
+	focus() {
 		if (this.input) {
 			this.input.focus();
 		}
 	}
 
-	onChange = (value) => {
-		const {onChange} = this.props;
+	onChange = value => {
+		const { onChange } = this.props;
 
 		if (onChange) {
 			onChange(value);
 		}
-	}
+	};
 
-
-	render () {
-		const {value, context, ...otherProps} = this.props;
-		const placeholder = context ? t('placeholderWithContext', {context}) : t('placeholder');
+	render() {
+		const { value, context, ...otherProps } = this.props;
+		const placeholder = context
+			? t('placeholderWithContext', { context })
+			: t('placeholder');
 
 		return (
 			<Input.Text
