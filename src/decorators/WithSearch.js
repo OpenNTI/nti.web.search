@@ -56,7 +56,7 @@ function SearchableWrapper ({
  * @param {Object} Cmp component to pass the search term to
  * @param {Function} param1.context generate an id for the search context name
  * @param {Function} param1.label user visible label fo the context
- * @param {String} param1.scope scope to look for the search input in (default: global)
+ * @param {string} param1.scope scope to look for the search input in (default: global)
  * @returns {Object} wrapper around Cmp that will pass Cmp the search term
  */
 export function WithSearch (Cmp, {context = ((_, id) => id), label, scope}) {
