@@ -1,29 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HOC} from '@nti/lib-commons';
-import {Hooks} from '@nti/web-commons';
+import { HOC } from '@nti/lib-commons';
+import { Hooks } from '@nti/web-commons';
 
 import SearchStore from '../Store';
 
-const {useForceUpdate} = Hooks;
+const { useForceUpdate } = Hooks;
 
 let seen = 0;
 
-const getStore = (scope) => scope ? SearchStore.getForScope(scope) : SearchStore.getGlobal();
+const getStore = scope =>
+	scope ? SearchStore.getForScope(scope) : SearchStore.getGlobal();
 
 SearchableWrapper.propTypes = {
 	_searchableId: PropTypes.string,
 	_scope: PropTypes.string,
 	_label: PropTypes.string,
 	_component: PropTypes.any,
-	_componentRef: PropTypes.any
+	_componentRef: PropTypes.any,
 };
-function SearchableWrapper ({
-	_searchableId:id,
-	_scope:scope,
-	_label:label,
-	_component:Cmp,
-	_componentRef:forwardRef,
+function SearchableWrapper({
+	_searchableId: id,
+	_scope: scope,
+	_label: label,
+	_component: Cmp,
+	_componentRef: forwardRef,
 
 	...otherProps
 }) {
@@ -47,7 +48,7 @@ function SearchableWrapper ({
 		};
 	}, [store, id, label]);
 
-	return (<Cmp searchTerm={searchTerm} {...otherProps} />);
+	return <Cmp searchTerm={searchTerm} {...otherProps} />;
 }
 
 /**
@@ -59,7 +60,7 @@ function SearchableWrapper ({
  * @param {string} param1.scope scope to look for the search input in (default: global)
  * @returns {Object} wrapper around Cmp that will pass Cmp the search term
  */
-export function WithSearch (Cmp, {context = ((_, id) => id), label, scope}) {
+export function WithSearch(Cmp, { context = (_, id) => id, label, scope }) {
 	const id = seen.toString();
 	seen += 1;
 
