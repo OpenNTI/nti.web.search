@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { HOC } from '@nti/lib-commons';
 
 import SearchStore from '../Store';
@@ -12,7 +13,6 @@ export class Contextual extends React.Component {
 		'contextual-id': PropTypes.string.isRequired,
 
 		component: PropTypes.any,
-		children: PropTypes.element,
 		forwardedRef: PropTypes.any,
 	};
 

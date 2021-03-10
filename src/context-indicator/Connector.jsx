@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import Connector from '@nti/lib-store-connector';
 
 import Store from '../Store';
