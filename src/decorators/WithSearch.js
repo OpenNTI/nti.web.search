@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { HOC } from '@nti/lib-commons';
-import { Hooks } from '@nti/web-commons';
+import { useForceUpdate } from '@nti/web-core';
 
 import SearchStore from '../Store';
-
-const { useForceUpdate } = Hooks;
 
 let seen = 0;
 
@@ -56,6 +54,7 @@ function SearchableWrapper({
  * Pass the current search term to a composed component
  *
  * @param {Object} Cmp component to pass the search term to
+ * @param {Object} param1 generate an id for the search context name
  * @param {Function} param1.context generate an id for the search context name
  * @param {Function} param1.label user visible label fo the context
  * @param {string} param1.scope scope to look for the search input in (default: global)

@@ -29,7 +29,8 @@
     "@nti/lib-locale": "NextThought/nti.lib.locale",
     "@nti/lib-store-connector": "NextThought/nti.lib.store.connector",
     "@nti/util-logger": "NextThought/nti.util.logger",
-    "@nti/web-commons": "NextThought/nti.web.commons"
+    "@nti/web-commons": "NextThought/nti.web.commons",
+    "@nti/web-core": "NextThought/nti.web.core"
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.31.8"
