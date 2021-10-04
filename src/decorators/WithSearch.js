@@ -61,7 +61,7 @@ function SearchableWrapper({
  * @returns {Object} wrapper around Cmp that will pass Cmp the search term
  */
 export function WithSearch(Cmp, { context = (_, id) => id, label, scope }) {
-	const id = seen.toString();
+	const id = `search-${seen.toString()}`;
 	seen += 1;
 
 	const Wrapper = (props, ref) => (
