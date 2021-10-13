@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { HOC } from '@nti/lib-commons';
@@ -27,11 +27,11 @@ function SearchableWrapper({
 
 	...otherProps
 }) {
-	const store = React.useMemo(() => getStore(scope), [scope]);
+	const store = useMemo(() => getStore(scope), [scope]);
 	const forceUpdate = useForceUpdate();
 	const searchTerm = store?.searchTerm;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		store.addChangeListener(forceUpdate);
 
 		if (label) {
