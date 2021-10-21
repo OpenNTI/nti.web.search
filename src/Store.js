@@ -1,5 +1,6 @@
 import EventEmitter from 'events';
 
+import { buffer } from '@nti/lib-commons';
 import Logger from '@nti/util-logger';
 
 const log = Logger.get('web:search:store');
@@ -122,6 +123,7 @@ export default class SearchProviderStore extends EventEmitter {
 
 		if (!exists) {
 			this._contexts = [{ id, label }, ...this._contexts];
+			this.emitChange('context', 'searchTerm');
 		}
 
 		if (this._contexts.length > 1) {
@@ -129,8 +131,6 @@ export default class SearchProviderStore extends EventEmitter {
 				'More than one context active. We will just take the first one'
 			);
 		}
-
-		this.emitChange('context', 'searchTerm');
 	}
 
 	removeContext(id, label) {
@@ -142,9 +142,9 @@ export default class SearchProviderStore extends EventEmitter {
 		this.emitChange('context', 'searchTerm');
 	}
 
-	emitChange(type) {
+	emitChange = buffer(0, type => {
 		this.emit('change', { type });
-	}
+	});
 
 	addChangeListener(fn) {
 		this.addListener('change', fn);

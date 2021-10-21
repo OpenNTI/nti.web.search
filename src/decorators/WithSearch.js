@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 
 import { HOC } from '@nti/lib-commons';
 import { useForceUpdate } from '@nti/web-core';
@@ -11,44 +10,28 @@ let seen = 0;
 const getStore = scope =>
 	scope ? SearchStore.getForScope(scope) : SearchStore.getGlobal();
 
-SearchableWrapper.propTypes = {
-	_searchableId: PropTypes.string,
-	_scope: PropTypes.string,
-	_label: PropTypes.string,
-	_component: PropTypes.any,
-	_componentRef: PropTypes.any,
-};
-function SearchableWrapper({
-	_searchableId: id,
-	_scope: scope,
-	_label: label,
-	_component: Cmp,
-	_componentRef: forwardRef,
+const useStore = (scope, id, label) => {
+	const store = getStore(scope);
+	if (label) {
+		store?.removeContext(id);
+		store?.addContext(id, label);
+	}
 
-	...otherProps
-}) {
-	const store = useMemo(() => getStore(scope), [scope]);
+	useEffect(() => () => label && store.removeContext(id), [label, id, store]);
+
 	const forceUpdate = useForceUpdate();
-	const searchTerm = store?.searchTerm;
-
 	useEffect(() => {
-		store.addChangeListener(forceUpdate);
-
-		if (label) {
-			store.addContext(id, label);
-		}
-
-		return () => {
-			store.removeChangeListener(forceUpdate);
-
-			if (label) {
-				store.removeContext(id, label);
+		const changed = e => {
+			if (e.type === 'searchTerm') {
+				forceUpdate();
 			}
 		};
-	}, [store, id, label]);
+		store.addChangeListener(changed);
+		return () => void store.removeChangeListener(changed);
+	}, [store]);
 
-	return <Cmp searchTerm={searchTerm} {...otherProps} />;
-}
+	return store;
+};
 
 /**
  * Pass the current search term to a composed component
@@ -64,18 +47,13 @@ export function WithSearch(Cmp, { context = (_, id) => id, label, scope }) {
 	const id = `search-${seen.toString()}`;
 	seen += 1;
 
-	const Wrapper = (props, ref) => (
-		<SearchableWrapper
-			_searchableId={context(props, id)}
-			_scope={scope}
-			_label={typeof label === 'function' ? label(props) : label}
-			_component={Cmp}
-			_componentRef={ref}
-			{...props}
-		/>
-	);
+	const searchCmp = React.forwardRef((props, ref) => {
+		const _searchableId = context(props, id);
+		const _label = typeof label === 'function' ? label(props) : label;
+		const store = useStore(scope, _searchableId, _label);
 
-	const searchCmp = React.forwardRef(Wrapper);
+		return <Cmp {...props} ref={ref} searchTerm={store?.searchTerm} />;
+	});
 
 	const componentName = Cmp.displayName || Cmp.name;
 	const name = `${componentName}(Searchable)`;
