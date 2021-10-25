@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useImperativeHandle, useRef } from 'react';
 
 import Connector from '@nti/lib-store-connector';
 
@@ -7,66 +6,53 @@ import Store from '../Store';
 
 import Input from './Input';
 
+const resolveStore = scope =>
+	scope ? Store.getForScope(scope) : Store.getGlobal();
+
 const propMap = {
 	searchTerm: 'value',
 	context: 'context',
 };
 
-export default class SearchInputConnector extends React.Component {
-	static propTypes = {
-		store: PropTypes.object,
-		scope: PropTypes.string,
-		onChange: PropTypes.func,
+// static propTypes = {
+// 	store: PropTypes.object,
+// 	scope: PropTypes.string,
+// 	onChange: PropTypes.func,
+// };
+
+export default React.forwardRef(function SearchInputConnector(
+	{ store, scope, ...props },
+	ref
+) {
+	const input = useRef();
+	const _store = store || resolveStore(scope);
+
+	useImperativeHandle(ref, () => ({
+		get searchStore() {
+			return _store;
+		},
+
+		focus() {
+			input.current?.focus();
+		},
+
+		clear() {
+			_store.setTerm('');
+		},
+
+		get value() {
+			return input.current?.value;
+		},
+	}));
+
+	const onChange = value => {
+		_store.setTerm(value);
+		props.onChange?.(value);
 	};
 
-	attachInputRef = x => (this.input = x);
-
-	get searchStore() {
-		const { store, scope } = this.props;
-
-		return store ? store : resolveStore(scope);
-	}
-
-	focus() {
-		if (this.input) {
-			this.input.focus();
-		}
-	}
-
-	clear() {
-		this.searchStore.setTerm('');
-	}
-
-	onChange = value => {
-		const { onChange } = this.props;
-		const { searchStore } = this;
-
-		searchStore.setTerm(value);
-
-		if (onChange) {
-			onChange(value);
-		}
-	};
-
-	render() {
-		const { searchStore } = this;
-		const { ...otherProps } = this.props;
-
-		delete otherProps.store;
-		delete otherProps.scope;
-
-		return (
-			<Connector _store={searchStore} _propMap={propMap}>
-				<Input
-					{...otherProps}
-					onChange={this.onChange}
-					ref={this.attachInputRef}
-				/>
-			</Connector>
-		);
-	}
-}
-
-function resolveStore(scope) {
-	return scope ? Store.getForScope(scope) : Store.getGlobal();
-}
+	return (
+		<Connector _store={_store} _propMap={propMap}>
+			<Input {...props} onChange={onChange} ref={input} />
+		</Connector>
+	);
+});

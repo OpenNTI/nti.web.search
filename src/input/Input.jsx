@@ -1,55 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { scoped } from '@nti/lib-locale';
 import { Input } from '@nti/web-commons';
 
-const DEFAULT_TEXT = {
+const t = scoped('web-search.input', {
 	placeholder: 'Search',
 	placeholderWithContext: 'Search %(context)s',
-};
+});
 
-const t = scoped('web-search.input', DEFAULT_TEXT);
+/** @typedef {(value: string) => void} ChangeHandler */
 
-export default class SearchProviderInput extends React.Component {
-	static propTypes = {
-		value: PropTypes.string,
-		onChange: PropTypes.func,
+/**
+ * @param {object} props
+ * @param {string=} props.value
+ * @param {ChangeHandler=} props.onChange
+ * @param {string=} props.context
+ * @returns {JSX.Element}
+ */
+export default React.forwardRef(function SearchProviderInput(
+	{ value, onChange, context, ...otherProps },
+	ref
+) {
+	const placeholder = context
+		? t('placeholderWithContext', { context })
+		: t('placeholder');
 
-		context: PropTypes.string,
-	};
-
-	attachInputRef = x => (this.input = x);
-
-	focus() {
-		if (this.input) {
-			this.input.focus();
-		}
-	}
-
-	onChange = value => {
-		const { onChange } = this.props;
-
-		if (onChange) {
-			onChange(value);
-		}
-	};
-
-	render() {
-		const { value, context, ...otherProps } = this.props;
-		const placeholder = context
-			? t('placeholderWithContext', { context })
-			: t('placeholder');
-
-		return (
-			<Input.Text
-				data-testid="search"
-				{...otherProps}
-				value={value}
-				onChange={this.onChange}
-				placeholder={placeholder}
-				ref={this.attachInputRef}
-			/>
-		);
-	}
-}
+	return (
+		<Input.Text
+			data-testid="search"
+			{...otherProps}
+			value={value}
+			onChange={onChange}
+			placeholder={placeholder}
+			ref={ref}
+		/>
+	);
+});

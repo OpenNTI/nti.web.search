@@ -34,5 +34,8 @@
   },
   "devDependencies": {
     "@nti/cmp-scripts": "^2.31.8"
+  },
+  "peerDependencies": {
+    "react": "*"
   }
 }
