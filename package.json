@@ -1,6 +1,6 @@
 {
   "name": "@nti/web-search",
-  "version": "0.24.0",
+  "version": "0.25.0-alpha",
   "description": "Search Components",
   "main": "src/index.js",
   "module": "src/index.js",
